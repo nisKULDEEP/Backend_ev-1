@@ -33,7 +33,7 @@ app.get("/books", (req, res) => {
   });
 });
 
-app.get("/libraries", (req, res) => {
+app.get("/libraries", checkPermission, (req, res) => {
   res.status(200).json({
     route: req.url,
     permission: req.status,
@@ -46,7 +46,7 @@ app.get("/libraries/:id", checkPermission, (req, res) => {
   });
 });
 
-app.get("/authors", (req, res) => {
+app.get("/authors", checkPermission, (req, res) => {
   res.status(200).json({
     route: req.url,
     permission: req.status,
