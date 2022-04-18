@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 // });
 
 const checkPermission = (req, res, next) => {
-  if (req.url == "/libraries" || req.url == "/authors") {
+  if (req.params.id == "librarian" || req.params.id == "author") {
     req.status = true;
   } else {
     req.status = false;
@@ -33,14 +33,26 @@ app.get("/books", (req, res) => {
   });
 });
 
-app.get("/libraries", checkPermission, (req, res) => {
+app.get("/libraries", (req, res) => {
+  res.status(200).json({
+    route: req.url,
+    permission: req.status,
+  });
+});
+app.get("/libraries/:id", checkPermission, (req, res) => {
   res.status(200).json({
     route: req.url,
     permission: req.status,
   });
 });
 
-app.get("/authors", checkPermission, (req, res) => {
+app.get("/authors", (req, res) => {
+  res.status(200).json({
+    route: req.url,
+    permission: req.status,
+  });
+});
+app.get("/authors/:id", checkPermission, (req, res) => {
   res.status(200).json({
     route: req.url,
     permission: req.status,
