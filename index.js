@@ -9,14 +9,23 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
+// app.use((req, res, next) => {
+//   if (req.url == "/libraries" || req.url == "/authors") {
+//     req.status = true;
+//   } else {
+//     req.status = false;
+//   }
+//   next();
+// });
+
+const checkPermission = (req, res, next) => {
   if (req.url == "/libraries" || req.url == "/authors") {
     req.status = true;
   } else {
     req.status = false;
   }
   next();
-});
+};
 
 app.get("/books", (req, res) => {
   res.status(200).json({
@@ -24,14 +33,14 @@ app.get("/books", (req, res) => {
   });
 });
 
-app.get("/libraries", (req, res) => {
+app.get("/libraries", checkPermission, (req, res) => {
   res.status(200).json({
     route: req.url,
     permission: req.status,
   });
 });
 
-app.get("/authors", (req, res) => {
+app.get("/authors", checkPermission, (req, res) => {
   res.status(200).json({
     route: req.url,
     permission: req.status,
